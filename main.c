@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define MAX_NUMBERS 1000
 #define MIN_VALUE 5
@@ -81,6 +82,10 @@ int main() {
         angka[i] = rand() % (MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE;
     }
 
+    int angka2[MAX_NUMBERS];
+
+    memcpy(angka2, angka, MAX_NUMBERS);
+
     Box boxes[10]; // Maksimal 10 box
     int totalBoxes = 0;
     int currentIndex = 0; // Menyimpan indeks terakhir yang dimasukkan
@@ -89,12 +94,11 @@ int main() {
     do {
         printf("\nMenu:\n");
         printf("1. Masukkan angka ke dalam box\n");
-        printf("2. Urutkan angka (Bubble Sort)\n");
-        printf("3. Urutkan angka (Quick Sort)\n");
-        printf("4. Tampilkan isi Box\n");
-        printf("5. Tampilkan semua angka\n");
-        printf("6. Angka yang belum masuk\n");
-        printf("7. Keluar");
+        printf("2. Urutkan angka \n");
+        printf("3. Tampilkan isi Box\n");
+        printf("4. Tampilkan semua angka\n");
+        printf("5. Angka yang belum masuk\n");
+        printf("6. Keluar");
         printf("Masukkan pilihan: ");
         scanf("%d", &choice);
         switch (choice) {
@@ -128,28 +132,28 @@ int main() {
             clock_t start = clock();
             bubbleSort(angka, MAX_NUMBERS);
             clock_t end = clock();
+
             printf("Waktu Bubble Sort: %.2f ms\n", (double)(end - start) * 1000 / CLOCKS_PER_SEC);
+
+            clock_t start1 = clock();
+            quickSort(angka2, 0, MAX_NUMBERS - 1);
+            clock_t end1 = clock();
+
+            printf("Waktu Quick Sort: %.2f ms\n", (double)(end1 - start1) * 1000 / CLOCKS_PER_SEC);
             break;
         }
         case 3: {
-            clock_t start = clock();
-            quickSort(angka, 0, MAX_NUMBERS - 1);
-            clock_t end = clock();
-            printf("Waktu Quick Sort: %.2f ms\n", (double)(end - start) * 1000 / CLOCKS_PER_SEC);
-            break;
-        }
-        case 4: {
             int boxIndex;
             printf("Masukkan nomor Box yang ingin dilihat (1-%d): ", totalBoxes);
             scanf("%d", &boxIndex);
             displayBox(boxes, boxIndex - 1, totalBoxes);
             break;
         }
-        case 5: {
+        case 4: {
             displayAllNumbers(angka, MAX_NUMBERS);
             break;
         }
-        case 6:{
+        case 5:{
             if (currentIndex == MAX_NUMBERS){
                 printf("Semua angka sudah dimasukkan");
                 break;
@@ -159,7 +163,7 @@ int main() {
             }
         }
             break;
-        case 7: {
+        case 6: {
             printf("Keluar dari program.\n");
             break;
         }
@@ -167,7 +171,7 @@ int main() {
             printf("Pilihan tidak valid.\n");
             break;
         }
-    } while (choice != 7);
+    } while (choice != 6);
 
     return 0;
 }
